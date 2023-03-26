@@ -1,11 +1,15 @@
 # quill-editor-basic
 
-npm install -s vue-quill-editor
+공식 git
+https://vueup.github.io/vue-quill/guide/modules.html
+
+### npm install -s vue-quill-editor
 
 https://github.com/syntacticsolutions/Vue-Blog-Tutorial2/tree/master/src
 
-npm install -s quill-image-resize-module
-npm install quill-image-uploader --save
+### npm install -s quill-image-resize-module
+
+### npm install quill-image-uploader --save
 
 이미지 리사이즈 이슈 처리
 https://github.com/kensnyder/quill-image-resize-module/issues/54
