@@ -3,7 +3,6 @@ package com.kimsoar.fileserver.service;
 
 import com.kimsoar.fileserver.controller.FileStorageException;
 import com.kimsoar.fileserver.controller.MyFileNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,7 @@ public class FileStorageService implements FileService {
 
     private final Path fileStorageLocation;
 
-    private final static String imageDirectory = Paths.get("").toAbsolutePath() + "/files/";
+    private final static String imageDirectory = Paths.get("").toAbsolutePath() + "/storage/";
 
     public FileStorageService() {
         this.fileStorageLocation = Paths.get(imageDirectory)

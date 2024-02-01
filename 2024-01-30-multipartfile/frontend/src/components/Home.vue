@@ -1,7 +1,13 @@
 <template>
     <div id="app">
-      <img alt="Vue logo" src="../assets/logo.png">
-      <RBeatEditor placeholder="입력 해주세요" :uploadProcess="upload"/>
+      <img v-for="image in images" :src="image" alt="aa" :key="image" width="100" />
+      <img :src="imgSrc" alt="aa" width="100" />
+      <div>
+        <button @click="onClickUploadFile">upload File</button>
+      </div>
+      <div class="editor">
+        <RBeatEditor placeholder="입력 해주세요"/>
+      </div>
     </div>
   </template>
   
@@ -16,39 +22,47 @@
     },
     data() {
         return {
-            toolbar: [
-                ["bold", "italic", "underline", "strike"],
-                ["blockquote", "code-block"],
-
-                [{ header: 1 }, { header: 2 }],
-                [{ list: "ordered" }, { list: "bullet" }],
-                [{ script: "sub" }, { script: "super" }],
-                [{ indent: "-1" }, { indent: "+1" }],
-                [{ direction: "rtl" }],
-            ]
+          images: [],
+          imgName: '200',
+          imgSrc: undefined,
         }
     },
     methods: {
-        upload(file) {
-                return new Promise((resolve, reject) => {
-                  // if 조건 이미지가 아니면 메세지 박스
-                  // show message box
-            
-                  console.log('hehehehehe!!!!!!')
+      changeImg(){
+                if(this.imgName === '200') {
+                    this.imgName = '300';
+                }else {
+                    this.imgName = '200';
+                }
+            },
+      getImageSelectElement(multiple) {
+            let elem = document.createElement('input');
+            elem.id = 'image';
+            elem.type = 'file';
+            elem.multiple = multiple;
+            return elem;
+        },
+      onClickUploadFile() {
+        const context = this;
 
-                  const formData = new FormData();
-                  formData.append("file", file);
-                  axios.post("http://localhost:8080/file/uploadfile", formData, { headers: { 'Content-Type': 'multipart/form-data' } })
-                  .then(function (response) {
-                    console.log(response.data);
-                    resolve(response.data.fileDownloadUri);
-                  })
-                  .catch(function (error) {
-                    console.error(error);
-                    reject(error);
-                  });
+            let elem = this.getImageSelectElement(false);
+            elem.click();
+            elem.onchange = function() {
+                const formData = new FormData();
+                formData.append('file', this.files[0]);
+                axios.post('http://localhost:8011/api/file/uploadFile', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+                .then((response) => {
+                  console.log(response.data);
+                  const image = response.data.fileDownloadUri;
+                  context.imgSrc = image;
+                  console.log(context.images);
+                  context.images.push(image);
+                })
+                .catch((error) => {
+                  console.error(error);
                 });
-              }
+            }
+      }
     }
   }
   </script>
@@ -61,6 +75,12 @@
     text-align: center;
     color: #2c3e50;
     margin-top: 60px;
+
   }
-  </style>
+
+  .editor {
+     max-height: 300px; 
+    }
+
+</style>
   

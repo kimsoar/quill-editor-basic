@@ -1,6 +1,7 @@
 <template>
     <div id="TextEditor">
       <quill-editor
+      class="editor"
         v-model="content"
         ref="myQuillEditor"
         :options="editorOption"
@@ -30,7 +31,6 @@
     [{ indent: "-1" }, { indent: "+1" }],
     [{ direction: "rtl" }],
 
-    //[{ 'size': ['small', false, 'large', 'huge'] }],
     [{ header: [1, 2, 3, 4, 5, 6, false] }],
     
     [{ color: [] }, { background: [] }],
@@ -48,7 +48,7 @@ const uploadCallbackDefault = (file) => {
     return new Promise((resolve, reject) => {
       const formData = new FormData();
       formData.append("file", file);
-      axios.post("http://localhost:8080/file/uploadfileaaaa", formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+      axios.post("http://localhost:8011/api/file/uploadFile", formData, { headers: { 'Content-Type': 'multipart/form-data' } })
       .then(function (response) {
         console.log(response.data);
         resolve(response.data.fileDownloadUri);
@@ -132,3 +132,12 @@ const uploadCallbackDefault = (file) => {
   };
   </script>
   
+  <style>
+#TextEditor {
+  height:100%;
+}
+
+.editor {
+  height: 100%;
+}
+</style>
